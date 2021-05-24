@@ -25,6 +25,15 @@ config K210_UART0
 	select ARCH_HAVE_SERIAL_TERMIOS
 	select K210_UART
 
+config K210_I2C
+	bool "I2C"
+	default n
+
+config K210_I2C0
+	bool "I2C0"
+	default n
+	select K210_I2C
+
 endmenu
 
 menu "K210 Others"
