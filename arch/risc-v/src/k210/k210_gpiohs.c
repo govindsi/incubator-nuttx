@@ -36,7 +36,6 @@
 /****************************************************************************
  * Pre-processor Definitions
  ****************************************************************************/
-#define K210_NGPIOHS 32
 
 #define GPIOHS_INPUT_VAL_OFFSET    0x00
 #define GPIOHS_INPUT_EN_OFFSET     0x04
@@ -58,10 +57,6 @@ void k210_gpiohs_set_direction(uint32_t io, bool dir)
 {
   uint32_t outbit = dir << io;
   uint32_t inbit  = (!dir) << io;
-
-  if (gpio >= K210_NGPIOHS)
-      return;
-
   modifyreg32(GPIOHS_OUTPUT_EN, inbit, outbit);
   modifyreg32(GPIOHS_INPUT_EN, outbit, inbit);
 }
@@ -70,11 +65,6 @@ void k210_gpiohs_set_value(uint32_t io, bool val)
 {
   uint32_t setbit = val << io;
   uint32_t clrbit  = (!val) << io;
-
-
-  if (gpio >= K210_NGPIOHS)
-      return;
-
   modifyreg32(GPIOHS_OUTPUT, clrbit, setbit);
 }
 
@@ -82,7 +72,6 @@ bool k210_gpiohs_get_value(uint32_t io)
 {
   uint32_t reg = getreg32(GPIOHS_INPUT);
 
-  DEBUGASSERT(io >= 0 && pin <= K210_NGPIOHS);
   if (reg & (1 << io))
     {
       return true;
